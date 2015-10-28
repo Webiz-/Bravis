@@ -1,0 +1,62 @@
+doctype html
+html
+  head
+    title Bravis - #{title}
+    link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css')
+    link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.3.0/css/material.min.css')
+    link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.3.0/css/ripples.min.css')
+    link(rel='stylesheet', href='/stylesheets/extend-bootstrap.css')
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='stylesheet', href='/stylesheets/responsive.css')
+
+    script(src='https://code.jquery.com/jquery-2.1.4.min.js')
+    script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/2.2.2/isotope.pkgd.min.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.3.0/js/material.min.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.3.0/js/ripples.min.js')
+
+  body(class=!user && 'bg-login')
+    if (user)
+        nav(class='navbar navbar-inverse navbar-fixed-top')
+          div(class='container-fluid')
+            div(class='navbar-header')
+              button(type='button', class='navbar-toggle collapsed', data-toggle='collapse', data-target='#navbar', aria-expanded='false', aria-controls='navbar')
+                span(class='sr-only') Toggle navigation
+                span(class='icon-bar')
+                span(class='icon-bar')
+                span(class='icon-bar')
+              a(class='navbar-brand' href='/')
+                //img(class="logo", src="/images/Webizgood-only-logo-30px.png")
+                span Bravis
+            div(id="navbar" class="navbar-collapse collapse")
+              ul(class="nav navbar-nav")
+                  each item in menu
+                      li(class=item.url === url && 'active')
+                          a(href=item.url)
+                            span=item.name
+              ul(class="nav navbar-nav navbar-right")
+                li(class="dropdown")
+                    a(href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false")=user.username
+                        span(class="caret")
+                    ul(class="dropdown-menu")
+                        li
+                            a(href="/account")
+                                i(class='glyphicon glyphicon-user')
+                                span= __('Accounts')
+                        li
+                            a(href="#") Another action
+                        li
+                            a(href="#") Something else here
+                        li(role="separator" class="divider")
+                        li
+                            a(href="/logout")
+                                i(class='glyphicon glyphicon-off')
+                                span Logout
+              form(class='navbar-form navbar-right')
+                  input(type='text',class='form-control col-lg-8', placeholder=__('Search'))
+
+    div(class='container-fluid')
+      block content
+
+script(type='text/javascript').
+    $.material.init();

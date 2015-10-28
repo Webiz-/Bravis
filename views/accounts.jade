@@ -1,0 +1,14 @@
+extends layout
+block content
+    h1=title
+
+    table(class="table")
+        thead
+            tr
+                th #
+                th= __('Username')
+        tbody
+        each model in models
+            tr
+                td= model.id
+                td= model.username

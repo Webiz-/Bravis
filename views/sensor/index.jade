@@ -1,0 +1,103 @@
+extends ../layout
+block content
+    h1=title
+
+    div(class='help-block')= __('Create your sensor to grab data...')
+
+    a(href='/sensor/create/')
+        button(class="btn btn-primary")= __('Create')
+
+    if(sensors)
+        div(class="row")
+            each sensor in sensors
+                div(class="item-wrap col-md-3 col-sm-4 col-xs-12")
+                    div(class="item state-" + (sensor.log && sensor.log.data[sensor.log.data.length -1].state), data-id=sensor.model.id)
+                        div(class='item-content')
+                            div(class='item-title')
+                                div(class='item-item')
+                                    div
+                                        img(src=sensor.ICON)
+                                    div
+                                        div= sensor.model.name
+                                        if(sensor.model.description)
+                                            div(class="help-block")= sensor.model.description
+                            span(class="dropdown")
+                                button(class="btn btn-default dropdown-toggle", type="button", id="dropdownMenu1", data-toggle="dropdown", aria-haspopup="true", aria-expanded="true")
+                                    span(class="glyphicon glyphicon-cog")
+                                    span(class="caret")
+                                ul(class="dropdown-menu", aria-labelledby="dropdownMenu1")
+                                    li
+                                        a(href='/sensor/update/' + sensor.model.id)
+                                            i(class="glyphicon glyphicon-edit")
+                                            span= __('Edit')
+                                    li
+                                        a(href='#', data-action='sync', data-id=sensor.model.id)
+                                            i(class="glyphicon glyphicon-refresh")
+                                            span= __('Fetch')
+                                    li
+                                        a(href='#', data-action='delete', data-id=sensor.model.id)
+                                            i(class="glyphicon glyphicon-remove")
+                                            span= __('Delete')
+
+
+    script(type='text/javascript').
+        $('.item').each(function(index, item) {
+            $(item).bind('click', function () {
+                window.location = '/sensor/' + $(item).data('id')
+            });
+        });
+
+        $('.dropdown').each(function(index, item) {
+            item = $(item);
+            item.bind('click', function (event) {
+                event.stopPropagation();
+
+                item.toggleClass('open');
+            });
+        });
+
+        $('[data-action=sync]').each(function (index, item) {
+            $(item).bind('click', function () {
+                var text = $(item).html();
+                $(item).text('Loading...');
+                $.ajax('/sensor/sync/' + $(item).attr('data-id'), {
+                    complete: function (data, resp) {
+                        var newState = data.responseJSON.state,
+                            stateElem = $($(item).parents('.item')[0]);
+                        $(item).html(text);
+
+                        if (newState) {
+                            stateElem.addClass('state-false').removeClass('state-true');
+                        } else {
+                            stateElem.addClass('state-true').removeClass('state-false');
+                        }
+                    }
+                })
+            })
+        });
+
+        $('[data-action=delete]').each(function(index, item){
+            $(item).bind('click', function () {
+                $(item).text('Loading...');
+                $.ajax('/sensor', {
+                    method: 'DELETE',
+                    data: {
+                        id: $(item).attr('data-id')
+                    },
+                    complete: function () {
+                        $(item).parents('.item-wrap').remove();
+
+                        $('.row').isotope({
+                            itemSelector: '.item-wrap',
+                            layoutMode: 'masonry'
+                        });
+                    }
+                })
+            })
+        });
+
+        $('.row').isotope({
+            itemSelector: '.item-wrap',
+            layoutMode: 'masonry'
+        });
+

@@ -1,0 +1,92 @@
+extends ../layout
+block content
+    h1=title
+
+    div(class='help-block') Create your Scenarios....
+
+    a(href='/scenario/create/')
+        button(class="btn btn-primary")= __('Create')
+
+    if(models)
+        div(class="row")
+            each model in models
+                div(class="item-wrap col-md-3 col-sm-4 col-xs-12")
+                    div(class="item", data-id=model.id)
+                        div(class="item-section")= __('EVERY')
+                        div(class='item-content')
+                            div(class="item-item")
+                                div
+                                    img(width="48px", src="/images/clock.png")
+                                div= model.crontime
+                        div(class="item-section")= __('IF')
+
+                        div(class='item-content')
+                            div(class='item-title')
+                                div
+                                    each trigger in model.triggers
+                                        div(class="item-item")
+                                            div
+                                                img(src=trigger.ICON)
+                                            div= trigger.model.name
+                            div(class="dropdown")
+                                button(class="btn btn-default dropdown-toggle", type="button", data-toggle="dropdown", aria-haspopup="true", aria-expanded="true")
+                                    span(class="glyphicon glyphicon-cog")
+                                    span(class="caret")
+                                ul(class="dropdown-menu", aria-labelledby="dropdownMenu1")
+                                    li
+                                        a(href='/scenario/update/' + model.id)= __('Edit')
+                                    li
+                                        a(href='#', data-action='sync', data-id=model.id)= __('Run')
+                                    li
+                                        a(href='#', data-action='delete', data-id=model.id)= __('Delete')
+                            div(class="clearfix")
+                        div(class="item-section")= __('THEN')
+                        div(class="item-content")
+                            each action in model.actions
+                                div(class="item-item")
+                                    div
+                                        img(src=action.ICON)
+                                    div= action.model.name
+
+
+    script(type='text/javascript').
+        $('.item').each(function(index, item) {
+            $(item).bind('click', function () {
+                window.location = '/scenario/' + $(item).data('id')
+            });
+        });
+
+        $('.dropdown').each(function(index, item) {
+            item = $(item);
+            item.bind('click', function (event) {
+                event.stopPropagation();
+
+                item.toggleClass('open');
+            });
+        });
+
+        $('[data-action=delete]').each(function(index, item){
+            $(item).bind('click', function () {
+                $(item).text('Loading...');
+                $.ajax('/scenario', {
+                    method: 'DELETE',
+                    data: {
+                        id: $(item).attr('data-id')
+                    },
+                    complete: function () {
+                        $(item).parents('.item-wrap').remove();
+
+                        $('.row').isotope({
+                            itemSelector: '.item-wrap',
+                            layoutMode: 'masonry'
+                        });
+                    }
+                })
+            })
+        });
+
+        $('.row').isotope({
+            itemSelector: '.item-wrap',
+            layoutMode: 'masonry'
+        });
+

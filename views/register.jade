@@ -1,0 +1,19 @@
+extends layout
+block content
+    div(class='authentication-panel')
+        h1=title
+
+        h4=info
+        form(method="post")
+            div(class="form-group")
+                div(class="input-group")
+                    span(class="input-group-addon glyphicon glyphicon-user")
+                    input( class="form-control" id="username" name="username" placeholder="Username")
+            div(class="form-group")
+                div(class="input-group")
+                    span(class="input-group-addon glyphicon glyphicon-lock")
+                    input(type="password" class="form-control" id="password" name="password" placeholder="Password")
+            button(type="submit" class="btn btn-primary pull-right")= __('Submit')
+            div(class="clearfix")
+            a(class="pull-right create-account", href="/login")= __('login')
+            div(class="clearfix")

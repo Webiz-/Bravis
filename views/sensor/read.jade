@@ -1,0 +1,40 @@
+extends ../layout
+block content
+    h1=title
+
+    h3= __('Details')
+    div= model.description
+    div= description
+    div Trigger: #{model.trigger}
+    div Crontime: #{model.crontime}
+
+    h3= __('History')
+    div
+        form
+            select(id="history", class="center-block form-control")
+                each history in histories
+                    option(value='/sensor/' + model.id + '/' + history.month + '/' + history.year)= history.month + '/' + history.year
+    div(id="container", style="min-width: 310px; height: 400px; margin: 0 auto")
+
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/highcharts/4.1.8/highcharts.js')
+    script(type='text/javascript').
+        var data = !{JSON.stringify(chart)};
+        $('#container').highcharts(data);
+        $('#history').on('change', function () {
+            var url = $(this).val();
+            if (url) {
+                window.location = url;
+            }
+            return false;
+        });
+
+        //TODO update the chart
+//        setInterval(function () {
+//            $.ajax(window.location, {
+//                complete: function (resp) {
+//                    var data = resp.responseText;
+//                    console.log(data);
+//                    //$('#container').highcharts(data);
+//                }
+//            })
+//        }, 5000);

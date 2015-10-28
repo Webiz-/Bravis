@@ -1,0 +1,17 @@
+{
+	"Create": "Create",
+	"Sample": "Sample",
+	"A fake api device range (0-10)": "A fake api device range (0-10)",
+	"Random number %s %s": "Random number %s %s",
+	"Options 1": "Options 1",
+	"Options 1x": "Options 1x",
+	"fake options1": "fake options1",
+	"fake option": "fake option",
+	"fake options2": "fake options2",
+	"Weather.com": "Weather.com",
+	"Check for rain on the next period, trigger is chance to rain (0 - 100)": "Check for rain on the next period, trigger is chance to rain (0 - 100)",
+	"Tomorrow chance to rain %s %s% at %s": "Tomorrow chance to rain %s %s% at %s",
+	"Humidity": "Humidity",
+	"TODO .....": "TODO .....",
+	"Humidity %s %s": "Humidity %s %s"
+}

@@ -1,0 +1,13 @@
+extends ../layout
+block content
+    h1=title
+
+    h3= __('Details')
+
+    div= model.name
+    div= model.description
+    div= model.trigger
+    div= model.crontime
+    div= model.action
+    div= JSON.stringify(model)
+

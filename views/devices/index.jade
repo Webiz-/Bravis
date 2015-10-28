@@ -1,0 +1,4 @@
+each option in options
+    div(class="form-group")
+        label(for=option.name)= option.label
+        input(type=options.type, class="form-control", id=option.name, name='options_' + option.name, placeholder=option.placeholder)

@@ -1,0 +1,65 @@
+extends ../layout
+block content
+    h1=title
+
+    div(class='help-block') Create your Action device to execute nice task...
+
+    a(href='/action/create/')
+        button(class="btn btn-primary")= __('Create')
+
+    if(actions)
+        div(class="row")
+            each action in actions
+                div(class="item-wrap col-md-3 col-sm-4 col-xs-12")
+                    div(class="item")
+                        div(class='item-content', data-id=action.model.id)
+                            div(class='item-title')
+                                div(class='item-item')
+                                    div
+                                        img(src=action.ICON)
+                                    div= action.model.name
+                            span(class="dropdown")
+                                button(class="btn btn-default dropdown-toggle", type="button", id="dropdownMenu1", data-toggle="dropdown", aria-haspopup="true", aria-expanded="true")
+                                    span(class="glyphicon glyphicon-cog")
+                                    span(class="caret")
+                                ul(class="dropdown-menu", aria-labelledby="dropdownMenu1")
+                                    li
+                                        a(href='/action/update/' + action.model.id)
+                                            i(class="glyphicon glyphicon-edit")
+                                            span= __('Edit')
+                                    li
+                                        a(href='#', data-action='delete', data-id=action.model.id)
+                                            i(class="glyphicon glyphicon-remove")
+                                            span= __('Delete')
+
+
+    script(type='text/javascript').
+        $('[data-action=delete]').each(function(index, item){
+            $(item).bind('click', function () {
+                $(item).text('Loading...');
+                $.ajax('/action', {
+                    method: 'DELETE',
+                    data: {
+                        id: $(item).attr('data-id')
+                    },
+                    complete: function () {
+                        $(item).parents('.item-wrap').remove();
+                    }
+                })
+            })
+        });
+
+        $('.dropdown').each(function(index, item) {
+            item = $(item);
+            item.bind('click', function (event) {
+                event.stopPropagation();
+
+                item.toggleClass('open');
+            });
+        });
+
+        $('.row').isotope({
+            itemSelector: '.item-wrap',
+            layoutMode: 'masonry'
+        });
+

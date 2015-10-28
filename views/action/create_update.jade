@@ -1,0 +1,35 @@
+//this template should be for create and update should find a better name (edit) ?
+extends ../layout
+block content
+    h1=title
+    div
+        form(method='post')
+            if(model)
+                input(type="hidden", name="id", value=model._id)
+            div(class="form-group")
+                label(for="type")= __('Type')
+                select(class="form-control", name="type")
+                    each action in actions
+                        option(value=action.type, title=action.description,selected=model && model.type==action.type ? true : false)=action.name
+
+            h4= __('Options')
+
+            div(id="options_block")
+                each option in options
+                    div(class="form-group")
+                        label(for=option.name)= option.label
+                        input(type=options.type, class="form-control", id=option.name, name='options_' + option.name, placeholder=option.placeholder, value=model && model.options[option.name])
+
+
+            button(type="submit" class="btn btn-primary pull-right")= model ? __('Update') : __('Create')
+            div(class="clearfix")
+
+    script(type='text/javascript').
+        $('[name=type]').bind('change', function () {
+            $.ajax('/devices/action/' + this.value, {
+                complete: function (resp) {
+                    var html = resp.responseText;
+                    $('#options_block').html(html);
+                }
+            });
+        });

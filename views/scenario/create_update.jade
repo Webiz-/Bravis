@@ -1,0 +1,70 @@
+//this template should be for create and update should find a better name (edit) ?
+extends ../layout
+block content
+    h1=title
+    div
+        form(method='post')
+            div= JSON.stringify(model)
+            if(model)
+                input(type="hidden", name="id", value=model._id)
+            div(class="form-group")
+                label(for="name")= __('Name')
+                input(type="text", class="form-control", id="name", name="name", placeholder="Name", value=model && model.name)
+            div(class="form-group")
+                label(for="crontime")= __('Crontime')
+                input(type="text", class="form-control", id="crontime", name="crontime", placeholder="Crontime sample: 0 0 */4 * * *", value=model && model.crontime)
+            div(class="form-group form-sensor")
+                button(type="button", class="btn btn-primary pull-right", id="add-condition") Add condition
+                label(for="trigger")= __('Sensor Triggers (IF)')
+                if model
+                    each trigger in model.triggers
+                        select(class="form-control", name="sensor")
+                            each sensor in sensors
+                                option(value=sensor._id, selected=model && trigger == sensor._id ? true : false)=sensor.name
+                 else
+                    select(class="form-control", name="sensor")
+                        each sensor in sensors
+                            option(value=sensor._id, selected=model && model.type == sensor._id ? true : false)=sensor.name
+
+            div(class="form-group")
+                label(for="trigger")= __('Action (THEN)')
+                select(class="form-control", name="action")
+                    each action in actions
+                        option(value=action._id, selected=model && model.type == action._id ? true : false)=action.name
+
+            button(type="button" class="btn btn-primary pull-right" id="action-create-update")= model ? __('Update') : __('Create')
+            div(class="clearfix")
+
+    script(type='text/javascript').
+        $('#add-condition').bind('click', function () {
+            var sensors = !{JSON.stringify(sensors)};
+            var options = '';
+
+            sensors.forEach(function (sensor) {
+                options += '<option value="' + sensor._id +'">' + sensor.name + '</option>';
+            });
+
+            $('.form-sensor').append('<select class="form-control" name="sensor">' + options + '</select>');
+        });
+
+        $('#action-create-update').bind('click', function () {
+            var sensors = [];
+
+            $('[name=sensor]').each(function(index, item){
+                sensors.push(item.value);
+            });
+
+            $.ajax({
+                url: window.location,
+                method: 'POST',
+                data: {
+                    name: $('[name=name]').val(),
+                    crontime: $('[name=crontime]').val(),
+                    triggers: sensors,
+                    actions: $('[name=action]').val()
+                },
+                complete: function (resp) {
+                    window.location = '/scenario';
+                }
+            });
+        });

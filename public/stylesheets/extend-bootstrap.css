@@ -1,0 +1,13 @@
+/* Glyphicon on input-group */
+.input-group-addon.glyphicon {
+    top:0
+}
+
+/* Glyphicon on dropdown  */
+.dropdown li .glyphicon+span {
+    margin-left: 5px;
+}
+
+.caret {
+    margin-left: 5px;
+}
