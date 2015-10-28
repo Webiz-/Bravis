@@ -193,7 +193,11 @@ router.get('/:id/:month/:year', function(req, res, next) {
       DevicesObj = util.getSensor(doc.type);
 
       model = doc;
-      SensorLog.findOne({sensorId: req.params.id}, function (err, docLog) {
+      SensorLog.findOne({
+        sensorId: req.params.id,
+        month: req.params.month,
+        year: req.params.year
+      }, function (err, docLog) {
         modelLog = docLog;
         //need to get the SensorLog where sensorId = id and order
         chartData = new DevicesObj(model).setModelLog(modelLog).toChart();
@@ -220,7 +224,9 @@ router.get('/:id/:month/:year', function(req, res, next) {
       description: new DevicesObj().DESCRIPTION,
       model: model,
       histories: histories,
-      chart: chartData
+      chart: chartData,
+      month: req.params.month,
+      year: req.params.year
     });
   });
 });

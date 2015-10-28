@@ -39,10 +39,10 @@
 	"http://www.google.fr": "http://www.google.fr",
 	"Submit": "Submit",
 	"Create an account": "Create an account",
-	"EVERY": "EVERY",
-	"IF": "IF",
+	"EVERY": "Tout les",
+	"IF": "SI",
 	"Run": "Run",
-	"THEN": "THEN",
+	"THEN": "Alors",
 	"Accounts": "Accounts",
 	"Search": "Search",
 	"Type": "Type",
@@ -50,5 +50,6 @@
 	"Name": "Name",
 	"Crontime": "Crontime",
 	"Sensor Triggers (IF)": "Sensor Triggers (IF)",
-	"Action (THEN)": "Action (THEN)"
+	"Action (THEN)": "Action (THEN)",
+	"Username": "Username"
 }

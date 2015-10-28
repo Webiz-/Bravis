@@ -1,6 +1,6 @@
 extends ../layout
 block content
-    h1=title
+    h1= title
 
     h3= __('Details')
     div= model.description
@@ -13,7 +13,7 @@ block content
         form
             select(id="history", class="center-block form-control")
                 each history in histories
-                    option(value='/sensor/' + model.id + '/' + history.month + '/' + history.year)= history.month + '/' + history.year
+                    option(value='/sensor/' + model.id + '/' + history.month + '/' + history.year, selected=year === history.year && month === history.month && 'selected')= history.month + '/' + history.year
     div(id="container", style="min-width: 310px; height: 400px; margin: 0 auto")
 
     script(src='https://cdnjs.cloudflare.com/ajax/libs/highcharts/4.1.8/highcharts.js')
@@ -27,14 +27,3 @@ block content
             }
             return false;
         });
-
-        //TODO update the chart
-//        setInterval(function () {
-//            $.ajax(window.location, {
-//                complete: function (resp) {
-//                    var data = resp.responseText;
-//                    console.log(data);
-//                    //$('#container').highcharts(data);
-//                }
-//            })
-//        }, 5000);
