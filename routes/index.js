@@ -3,21 +3,18 @@ var router = express.Router();
 var Account = require('../models/account');
 var passport = require('passport');
 
-
-
 /* GET home page. */
 router.get('/', function(req, res) {
   if(!req.user) {
     res.redirect('/login');
   } else {
-    res.render('index');
+    res.redirect('/scenario');
   }
 });
 
 router.get('/register', function(req, res) {
   res.render('register', {title: 'Create an account'});
 });
-
 
 router.post('/register', function(req, res) {
   Account.register(new Account({ username : req.body.username }), req.body.password, function(err) {
@@ -30,7 +27,6 @@ router.post('/register', function(req, res) {
     });
   });
 });
-
 
 router.get('/login', function(req, res) {
   res.render('login', {
@@ -62,8 +58,4 @@ router.get('/logout', function(req, res) {
   res.redirect('/');
 });
 
-router.get('/test', function(req, res) {
-
-  res.send('azezae');
-});
 module.exports = router;

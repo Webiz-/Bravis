@@ -10,7 +10,7 @@ block content
     if(sensors)
         div(class="row")
             each sensor in sensors
-                div(class="item-wrap col-md-3 col-sm-4 col-xs-12")
+                div(class="item-wrap col-lg-3 col-md-4 col-sm-6 col-xs-12")
                     div(class="item state-" + (sensor.log && sensor.log.data[sensor.log.data.length -1].state), data-id=sensor.model.id)
                         div(class='item-content')
                             div(class='item-title')
