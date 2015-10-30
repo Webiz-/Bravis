@@ -1,6 +1,1 @@
-TODO
-
-
-zz
-
-zzee
+Bravis is a "Timed IFTTT" used form home Automation
