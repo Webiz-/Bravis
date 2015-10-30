@@ -51,5 +51,14 @@
 	"Crontime": "Crontime",
 	"Sensor Triggers (IF)": "Sensor Triggers (IF)",
 	"Action (THEN)": "Action (THEN)",
-	"Username": "Nom d'utilisateur"
+	"Username": "Nom d'utilisateur",
+	"Save": "Save",
+	"Your account": "Votre Compte",
+	"User": "Utilisateur",
+	"Password": "Mot de passe",
+	"login": "login",
+	"Caution": "Attention",
+	"Logout": "Déconnexion",
+	"Create your Action device to execute nice task...": "Create your Action device to execute nice task...",
+	"Create your Scenarios....": "Create your Scenarios...."
 }

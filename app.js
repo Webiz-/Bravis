@@ -10,6 +10,14 @@ var passport = require('passport');
 var menu = require('./helper/menu');
 var i18n = require('i18n');
 
+//No authentication routes
+var WHITE_LIST_ROUTES = [
+  '/login',
+  '/register',
+  '/locale/fr',
+  '/locale/en'
+];
+
 
 //Auto Load Models
 fs.readdirSync(__dirname + '/models').forEach(function (file) {
@@ -75,13 +83,13 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 // init i18n module for this loop
+app.use(cookieParser());
 app.use(i18n.init);
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(require('express-session')({
   secret: '*ùqsd$qs^d^qsd^$fd^$fpqlfkà)*!:,2)àç-_çàè=é"(="é()-_"àç-"',
@@ -94,29 +102,28 @@ app.use(require('express-session')({
 app.use(passport.initialize());
 app.use(passport.session());
 
-//Make sure this comes before your routes.
+//...
 app.use(function(req, res, next) {
-  i18n.setLocale(req.getLocale());
-  res.locals.url = req.url;
+  res.locals.user = req.user;
   next();
 });
 
 //Make sure this comes before your routes.
 app.use(function(req, res, next) {
-  if(!req.user && ['/login', '/register'].indexOf(req.url) === -1) {
+  console.log(req);
+  i18n.setLocale(req.cookies && req.cookies.locale || req.getLocale());
+  res.locals.url = req.url;
+  next();
+});
+
+//No authentication routes
+app.use(function(req, res, next) {
+  if(!req.user && WHITE_LIST_ROUTES.indexOf(req.url) === -1) {
     res.redirect('/login');
   } else {
     next();
   }
   console.log('URL:', req.url);
-
-
-});
-
-//...
-app.use(function(req, res, next) {
-  res.locals.user = req.user;
-  next();
 });
 
 //...

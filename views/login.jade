@@ -2,27 +2,42 @@ extends layout
 
 block content
 
-  div(class='authentication-panel')
-    h1=title
+    div(class='authentication-panel')
+        h1=title
 
-    if(error)
-      div(class="alert alert-danger")
-        strong= __('Caution')
-        p= error
-    if (user)
-      p You are currently logged in as #{user.username}
-      a(href="/logout")= __('Logout')
-    else
-      form(name="login-form", method="post")
-        div(class="form-group")
-          div(class="input-group")
-            span(class="input-group-addon glyphicon glyphicon-user")
-            input( class="form-control" id="username" name="username" placeholder="User", value=username)
-        div(class="form-group")
-          div(class="input-group")
-            span(class="input-group-addon glyphicon glyphicon-lock")
-            input(type="password" class="form-control" id="password" name="password" placeholder="Password")
-        button(type="submit" class="btn btn-primary pull-right")= __('Submit')
-        div(class="clearfix")
-        a(class="pull-right create-account", href="/register")= __('Create an account')
-        div(class="clearfix")
+        if(error)
+            div(class="alert alert-danger")
+                strong= __('Caution')
+                p= error
+        if (user)
+            p= __("You are currently logged in as %s", user.username)
+            a(href="/logout")= __('Logout')
+        else
+            form(name="login-form", method="post")
+                div(class="form-group")
+                    div(class="input-group")
+                        span(class="input-group-addon glyphicon glyphicon-user")
+                        input( class="form-control" id="username" name="username" placeholder=__("User"), value=username)
+                div(class="form-group")
+                    div(class="input-group")
+                        span(class="input-group-addon glyphicon glyphicon-lock")
+                        input(type="password" class="form-control" id="password" name="password" placeholder=__("Password"))
+                button(type="submit" class="btn btn-primary pull-right")= __('Submit')
+                div(class="clearfix")
+                a(class="pull-right", class="create-account", href="/register")= __('Create an account')
+                div(class="clearfix")
+                div(class="dropdown")
+                    button(href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false")= locale === 'fr' ? 'Français' : 'English'
+                    span(class="caret")
+                    ul(class="dropdown-menu")
+                        li
+                            a(href="/locale/en")
+                                i(class='glyphicon glyphicon-flag')
+                                span= 'English'
+                        li
+                            a(href="/locale/fr")
+                                i(class='glyphicon glyphicon-flag')
+                                span= 'Français'
+                div(class="clearfix")
+
+

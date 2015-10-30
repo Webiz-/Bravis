@@ -2,6 +2,10 @@ doctype html
 html
   head
     title Bravis - #{title}
+    meta(charset="utf-8")
+    meta(http-equiv="X-UA-Compatible" content="IE=edge")
+    meta(name="viewport" content="width=device-width, initial-scale=1")
+
     link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css')
     link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.3.0/css/material.min.css')
     link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.3.0/css/ripples.min.css')
@@ -14,6 +18,8 @@ html
     script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/2.2.2/isotope.pkgd.min.js')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.3.0/js/material.min.js')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.3.0/js/ripples.min.js')
+
+
 
   body(class=!user && 'bg-login')
     if (user)
@@ -41,17 +47,17 @@ html
                     ul(class="dropdown-menu")
                         li
                             a(href="/account")
+                                i(class='glyphicon glyphicon-cog')
+                                span= __('Your account')
+                        li
+                            a(href="/accounts")
                                 i(class='glyphicon glyphicon-user')
                                 span= __('Accounts')
-                        li
-                            a(href="#") Another action
-                        li
-                            a(href="#") Something else here
                         li(role="separator" class="divider")
                         li
                             a(href="/logout")
                                 i(class='glyphicon glyphicon-off')
-                                span Logout
+                                span= __('Logout')
               form(class='navbar-form navbar-right')
                   input(type='text',class='form-control col-lg-8', placeholder=__('Search'))
 
